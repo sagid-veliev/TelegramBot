@@ -1,6 +1,10 @@
+
+const fs = require('fs');
 const TelegramApi = require('node-telegram-bot-api');
 const token = '5632707660:AAHhH_moj1SBBWumEqF-A_0QgMDYgAV0hAk';
 const bot = new TelegramApi(token, { polling: true });
+let counter = 0;
+let points = 0;
 
 const themes = {
     reply_markup: JSON.stringify({
@@ -22,38 +26,57 @@ bot.setMyCommands([
 bot.on('message', async msg => {
     const text = msg.text;
     const chatId = msg.chat.id;
-
     if (text === '/start') {
-        await bot.sendSticker(chatId, 'https://cdn.tlgrm.app/stickers/1b5/0ab/1b50abf8-8451-40ca-be37-ffd7aa74ec4d/192/12.webp')
-        return bot.sendMessage(chatId, `Добро пожаловать, ${msg.chat.first_name}! Ты попал в тестирующий бот по JS, выбери тему опроса!`, themes);
+        await bot.sendSticker(chatId, 'https://cdn.tlgrm.app/stickers/1b5/0ab/1b50abf8-8451-40ca-be37-ffd7aa74ec4d/192/12.webp');
+        await bot.sendMessage(chatId, `Добро пожаловать, ${msg.chat.first_name}! Ты попал в тестирующий бот по JS, выбери тему опроса!`, themes);
+        return getFile();
     }
     return bot.sendMessage(chatId, "Выбери что-то из меню. Я тебя не понимаю...(");
 })
 
-bot.on('callback_query', async msg => {
-    const theme = msg.data;
-    switch (theme) {
-        case 'basis': 
-            importJSON(theme);
-            break;
-        case 'object_basis': 
-            importJSON(theme);
-            break;
-        case 'data_types': 
-            importJSON(theme);
-            break;
-        case 'advanced_functions': 
-            importJSON(theme);
-            break;
-        case 'promises': 
-            importJSON(theme);
-            break;    
-        case 'modules':
-            importJSON(theme); 
-            break;
-    }
-})
-
-function importJSON(name) {
-    console.log(name);
+function getFile() {
+    bot.on('callback_query', async msg => {
+        const theme = msg.data; // тема опроса
+        const chatId = msg.message.chat.id; // айди чата
+        importJSON(theme, chatId);
+    })
 }
+
+function importJSON(name, chatId) {
+    const jsonData = fs.readFileSync(`${name}.json`);
+    const questions = JSON.parse(jsonData);
+    askQuestions(chatId, questions);
+}
+
+function askQuestions(chatId, questions) {
+    let correctAnswer = questions[counter].answer;
+    let variants = Object.values(questions[counter].variants);
+    let buttonsText = [];
+    variants.forEach(item => {
+        buttonsText.push([{ text: item, callback_data: item }]);
+    })
+    let buttons = { 
+        reply_markup: JSON.stringify({
+            inline_keyboard: buttonsText
+        })
+    }
+    if(counter === 0) {
+        bot.sendMessage(chatId, `Итак, первый вопрос! ${questions[counter].question}`, buttons);
+    }
+    
+    return checkAnswer(correctAnswer. questions);
+}
+
+function checkAnswer(correctly, questions) {
+    counter++;
+    bot.on('callback_query', async msg => {
+        const answer = msg.data; // текст ответа
+        const chatId = msg.message.chat.id; // айди чата
+        if (answer === correctly) {
+            points += 1;
+        }
+        askQuestions(chatId, questions);
+    })
+    
+}
+
