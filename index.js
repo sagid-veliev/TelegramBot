@@ -19,36 +19,50 @@ const themes = {
     })
 }
 
-bot.setMyCommands([
-    {command: '/start', description: 'Запусти шпаргалку.'}
-])
-
-bot.on('message', async msg => {
-    const text = msg.text;
-    const chatId = msg.chat.id;
-    if (text === '/start') {
-        await bot.sendSticker(chatId, 'https://cdn.tlgrm.app/stickers/1b5/0ab/1b50abf8-8451-40ca-be37-ffd7aa74ec4d/192/12.webp');
-        await bot.sendMessage(chatId, `Добро пожаловать, ${msg.chat.first_name}! Ты попал в тестирующий бот по JS, выбери тему опроса!`, themes);
-        return getFile();
-    }
-    return bot.sendMessage(chatId, "Выбери что-то из меню. Я тебя не понимаю...(");
-})
-
-function getFile() {
-    bot.on('callback_query', async msg => {
-        const theme = msg.data; // тема опроса
-        const chatId = msg.message.chat.id; // айди чата
-        importJSON(theme, chatId);
+const ready = {
+    reply_markup: JSON.stringify({
+        inline_keyboard: [
+            [{text: 'Да', callback_data: 'ready'}]
+        ]
     })
 }
 
-function importJSON(name, chatId) {
-    const jsonData = fs.readFileSync(`${name}.json`);
-    const questions = JSON.parse(jsonData);
-    askQuestions(chatId, questions);
+const startApp = () => {
+    bot.setMyCommands([
+        {command: '/start', description: 'Запусти шпаргалку.'}
+    ])
+
+    bot.on('message', async msg => {
+        const text = msg.text;
+        const chatId = msg.chat.id;            
+        if (text === '/start') {
+            await bot.sendSticker(chatId, 'https://cdn.tlgrm.app/stickers/1b5/0ab/1b50abf8-8451-40ca-be37-ffd7aa74ec4d/192/12.webp');
+            await bot.sendMessage(chatId, `Добро пожаловать, ${msg.chat.first_name}! Ты попал в тестирующий бот по JS, выбери тему опроса!`, themes);
+        } else {
+            return bot.sendMessage(chatId, "Выбери что-то из меню. Я тебя не понимаю...(");
+        }
+        
+    })
+
+    bot.on('callback_query', async msg => {
+        const text = msg.data; // Данные сообщения
+        const chatId = msg.message.chat.id; // айди чата
+        const previousText = msg.message.text;
+        if (previousText.includes('Добро')) {
+            importJSON(text, chatId, questions);
+        } else {
+            // askQuestions(chatId);
+        }
+    })
 }
 
-function askQuestions(chatId, questions) {
+function importJSON(name, chatId, questions) {
+    const jsonData = fs.readFileSync(`${name}.json`);
+    questions = JSON.parse(jsonData);
+    return bot.sendMessage(chatId, `Нажмите, если вы готовы!`, ready);
+}
+
+const askQuestions = (chatId) => {
     let correctAnswer = questions[counter].answer;
     let variants = Object.values(questions[counter].variants);
     let buttonsText = [];
@@ -60,7 +74,7 @@ function askQuestions(chatId, questions) {
             inline_keyboard: buttonsText
         })
     }
-    if(counter === 0) {
+    if (counter === 0) {
         bot.sendMessage(chatId, `Итак, первый вопрос! ${questions[counter].question}`, buttons);
     }
     
@@ -77,6 +91,7 @@ function checkAnswer(correctly, questions) {
         }
         askQuestions(chatId, questions);
     })
-    
 }
+
+startApp();
 
