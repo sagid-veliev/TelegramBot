@@ -10,14 +10,14 @@
       "answer": "use strict"
     },
     {
-      "question": "Что выведется в результате выражения 1 / 0",
+      "question": "Что выведется в результате выражения 1 / 0?",
       "variants": {
         "choice1": "Nan",
         "choice2": "0",
         "choice3": "Infinity",
         "choice4": "undefined"
       },
-      "answer": 3
+      "answer": "Infinity"
     },
     {
       "question": "Какое значение показывает результат неопределенной математической операции?",
@@ -27,17 +27,17 @@
         "choice3": "undefined",
         "choice4": "Error"
       },
-      "answer": 2
+      "answer": "Nan"
     },
     {
-      "question": "Что выведет true + false",
+      "question": "Что выведет true + false?",
       "variants": {
         "choice1": "true",
         "choice2": "0",
         "choice3": "1",
         "choice4": "undefined"
       },
-      "answer": 3
+      "answer": "1"
     },
     {
       "question": "Какой из нижеприведенных типов данных лишний?",
@@ -47,56 +47,56 @@
         "choice3": "null",
         "choice4": "undefined"
       },
-      "answer": 1
+      "answer": "Function"
     },
     {
-      "question": "Что вернет typeof null",
+      "question": "Что вернет typeof null?",
       "variants": {
         "choice1": "object",
         "choice2": "null",
         "choice3": "undefined",
         "choice4": "Symbol"
       },
-      "answer": 1
+      "answer": "object"
     },
     {
-      "question": "ЧТо получится в результате выражения '6' / '2'",
+      "question": "Что получится в результате выражения '6' / '2'?",
       "variants": {
         "choice1": "3",
         "choice2": "'3'",
         "choice3": "Nan",
         "choice4": "Infinity"
       },
-      "answer": 1
+      "answer": "3"
     },
     {
-      "question": "Have you got a ball? Yes, I ... .",
+      "question": "Что вернет выражение undefined || null || 0?",
       "variants": {
-        "choice1": "have",
-        "choice2": "do",
-        "choice3": "am",
-        "choice4": "ball"
+        "choice1": "null",
+        "choice2": "0",
+        "choice3": "undefined",
+        "choice4": "Nan"
       },
-      "answer": 1
+      "answer": "0"
     },
     {
-      "question": "Have you got many violets in your ...?",
+      "question": "Что вернет математическое выражение '1' + 2?",
       "variants": {
-        "choice1": "office",
-        "choice2": "school",
-        "choice3": "garden",
-        "choice4": "store"
+        "choice1": "'12'",
+        "choice2": "3",
+        "choice3": "Nan",
+        "choice4": "12"
       },
-      "answer": 3
+      "answer": "'12'"
     },
     {
-      "question": "Is ... a zebra or tiger?",
+      "question": "Как нельзя объявлять функцию в JS?",
       "variants": {
-        "choice1": "these",
-        "choice2": "this",
-        "choice3": "their",
-        "choice4": "their"
+        "choice1": "function name () {}",
+        "choice2": "name: function () {}",
+        "choice3": "const name = () => {}",
+        "choice4": "const name = function {}"
       },
-      "answer": 2
+      "answer": "const name = function {}"
     }
 ]
