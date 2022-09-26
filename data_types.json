@@ -1,43 +1,43 @@
 [
     {
-      "question": "user = { likes birds: 'Yes' }. Как обратиться к свойству 'likes birds' в объекте user?",
+      "question": "Сколько примитивов в JS?",
       "variants": {
-        "choice1": "user.likes birds",
-        "choice2": "user[likes birds]",
-        "choice3": "user['likes birds']",
-        "choice4": "user{'likes birds'}"
+        "choice1": "6",
+        "choice2": "5",
+        "choice3": "7",
+        "choice4": "8"
       },
-      "answer": "user['likes birds']"
+      "answer": "7"
     },
     {
-      "question": "typeof ... . Что из этого вернет 'object'?",
+      "question": "Что вернет 'typeof new Number(1)'?",
       "variants": {
-        "choice1": "Date",
+        "choice1": "object",
+        "choice2": "number",
+        "choice3": "function",
+        "choice4": "string"
+      },
+      "answer": "object"
+    },
+    {
+      "question": "Чему равно 'My\n'.length?",
+      "variants": {
+        "choice1": "4",
+        "choice2": "3",
+        "choice3": "2",
+        "choice4": "undefined"
+      },
+      "answer": "3"
+    },
+    {
+      "question": "Структура данных для упорядоченных коллекций?",
+      "variants": {
+        "choice1": "List",
         "choice2": "Array",
-        "choice3": "Error",
-        "choice4": "Math"
+        "choice3": "Object",
+        "choice4": "String"
       },
-      "answer": "Math"
-    },
-    {
-      "question": "В каком случае объекты равны друг другу?",
-      "variants": {
-        "choice1": "Это один и тот же объект",
-        "choice2": "Оба объекта не имеют свойства",
-        "choice3": "Объекты имеют свойства с одинаковыми именами и значениями",
-        "choice4": "Ни один из вариантов не подходит"
-      },
-      "answer": "Это один и тот же объект"
-    },
-    {
-      "question": "С помощью какого метода можно клонировать значение объекта?",
-      "variants": {
-        "choice1": "Object.assign",
-        "choice2": "Object.keys",
-        "choice3": "Object.values",
-        "choice4": "Object.entries"
-      },
-      "answer": "Object.assign"
+      "answer": "Array"
     },
     {
       "question": "У каких функций нет доступа к this?",
